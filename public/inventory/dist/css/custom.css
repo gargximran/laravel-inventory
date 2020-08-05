@@ -1,0 +1,11 @@
+img.table_image{
+    width: 45px !important;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+.table td{
+    vertical-align: middle !important;
+}
