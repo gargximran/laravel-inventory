@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -87,6 +88,9 @@ Route::namespace('inventory')->group(function(){
     Route::prefix('buy_from_supplier')->group(function(){
 
         Route::get('/', 'BuyFromSupplierController@index')->name('buy_from_supplier');
+        Route::post('/', function(Request $request){
+            dd($request);
+        })->name('confirm_buy_from_supplier');
 
     });
     

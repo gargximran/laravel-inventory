@@ -13,23 +13,7 @@
    
   
 
-    const imagePath = "{{asset('inventory/images/customer/'.$customer->image)}}"
-  
-
-    document.getElementById('imageUpload').addEventListener('change', e=>{
-        let image = e.target.files[0]
-        if(image){
-            let reader = new FileReader();
-                reader.readAsDataURL(image);
-                reader.onload = e => {
-                    return document.getElementById('showUploadImage').src = e.target.result
-                };
-        }else{
-            return document.getElementById('showUploadImage').src = imagePath
-        }
-
-        
-    })
+    
 
 
     document.getElementById('resetTrigger').onclick = () => {
@@ -113,16 +97,6 @@
                                     <input name="phone" type="text" value="{{$customer->phone}}" class="form-control" placeholder="Ex: 01734567898">
                                 </div>
 
-
-                                <div class="form-group m-t-20 ">
-                                    <label for="imageUpload" class="text-center d-block">Upload Image <small class="text-muted "></small></label>
-                                    <input accept="image/*" type="file" name="image" id="imageUpload" class="d-none">
-
-                                    <label for="imageUpload" class='row'>
-                                        
-                                        <img id="showUploadImage" src="{{asset('inventory/images/customer/'.$customer->image)}}" alt="" class="img-fluid col-md-6 offset-md-3 col-sm-8 offset-sm-2 border border-secondary p-1">
-                                    </label>
-                                </div>
                             </div>
                         </div>
 

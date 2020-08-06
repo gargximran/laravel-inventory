@@ -47,7 +47,7 @@ class InventoryController extends Controller
             "name" => "bail|required|unique:App\Models\Inventory\Inventory,name",
             "brand" => "bail|required",
             "size" => "bail|required",
-            "code" => "bail|required",
+            "code" => "bail|required|unique:App\Models\Inventory\Inventory,code",
             'image' => "bail|required|image"
      
         ]);

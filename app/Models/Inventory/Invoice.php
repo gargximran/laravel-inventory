@@ -17,4 +17,7 @@ class Invoice extends Model
     {
         return $this->belongsTo(Supplier::class);
     }
+    public function expense(){
+        return $this->hasOne(Expense::class);
+    }
 }

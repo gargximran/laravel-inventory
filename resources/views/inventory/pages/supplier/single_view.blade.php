@@ -53,12 +53,7 @@
 
                             
 
-                        </div>
-                        <div class="col-md-2 col-sm-6">                          
-
-                            <img id="showUploadImage" src="{{asset('inventory/images/supplier/'.$supplier->image)}}" alt="" class="img-fluid border border-secondary p-1">
-                            
-                        </div>
+                        </div>                       
                     </div>
                 </div>
                    

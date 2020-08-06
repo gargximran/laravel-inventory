@@ -20,7 +20,6 @@ class CreateCustomersTable extends Migration
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('shop_name')->default('Individual');
-            $table->string('image')->default('demo.png');
             $table->string('city')->nullable();
             $table->timestamps();
         });

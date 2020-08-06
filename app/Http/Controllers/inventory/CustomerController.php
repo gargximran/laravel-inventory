@@ -5,10 +5,7 @@ namespace App\Http\Controllers\inventory;
 use App\Models\Inventory\Customer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Str;
 use Brian2694\Toastr\Facades\Toastr;
-use Illuminate\Support\Facades\File;
 
 class CustomerController extends Controller
 {
@@ -54,12 +51,6 @@ class CustomerController extends Controller
         $customer->address = $request->address;
         $customer->city = $request->city;
 
-        if($request->image){
-            $imageName = Str::random(18).uniqid().".png";
-            Image::make($request->image)->encode('png', 90)->save(public_path('inventory/images/customer/'.$imageName));
-
-            $customer->image = $imageName;
-        }
 
         if($customer->save()){
             Toastr::success('Congratulation! New customer added..', 'Success!');
@@ -113,16 +104,6 @@ class CustomerController extends Controller
         $customer->address = $request->address;
         $customer->city = $request->city;
 
-        if($request->image){
-            if($customer->image != 'demo.png' && File::exists(public_path('inventory/images/customer/'.$customer->image))){
-                File::delete(public_path('inventory/images/customer/'.$customer->image));
-            }
-
-            $imageName = Str::random(18).uniqid().".png";
-            Image::make($request->image)->encode('png', 90)->save(public_path('inventory/images/customer/'.$imageName));
-
-            $customer->image = $imageName;
-        }
 
         if($customer->save()){
             Toastr::success('Congratulation! Customer updated..', 'Success!');
@@ -142,9 +123,7 @@ class CustomerController extends Controller
     public function destroy(Customer $customer)
     {
         if($customer->delete()){
-            if($customer->image != 'demo.png' && File::exists(public_path('inventory/images/customer/'.$customer->image))){
-                File::delete(public_path('inventory/images/customer/'.$customer->image));
-            }
+           
             Toastr::error('Customer has been deleted.', 'Deleted!');
             return redirect()->route('customer_view_table');
         }else{

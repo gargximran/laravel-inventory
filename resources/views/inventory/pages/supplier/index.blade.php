@@ -17,22 +17,6 @@
      ****************************************/
     $("#zero_config").DataTable();
 
-    const imagePath = "{{asset('inventory/images/logo/upload.png')}}"
-
-    document.getElementById('imageUpload').addEventListener('change', e=>{
-        let image = e.target.files[0]
-        if(image){
-            let reader = new FileReader();
-                reader.readAsDataURL(image);
-                reader.onload = e => {
-                    return document.getElementById('showUploadImage').src = e.target.result
-                };
-        }else{
-            return document.getElementById('showUploadImage').src = imagePath
-        }
-
-        
-    })
 
 
     document.getElementById('resetTrigger').onclick = () => {
@@ -130,14 +114,6 @@
                                 <input name="phone" type="text"  class="form-control" placeholder="Ex: 01734567898">
                             </div>
 
-
-                            <div class="form-group m-t-20">
-                                <label for="imageUpload">Upload Image <small class="text-muted"></small></label>
-                                <input accept="image/*" type="file" name="image" id="imageUpload" class="d-none">
-
-                                <label for="imageUpload" class='border border-secondary p-1'>
-                                <img id="showUploadImage" src="{{asset('inventory/images/logo/upload.png')}}" alt="" class="img-fluid"></label>
-                            </div>
                         </div>
                     </div>
 
@@ -177,10 +153,11 @@
                         >
                             <thead>
                                 <tr>
-                                    <th>Image</th>
+                                    
                                     <th>Name</th>
                                     <th>Type</th>
                                     <th>Shop Name</th>
+                                    <th>Phone</th>
                                     <th>Address</th>
                                     <th>City</th>
                                     <th>Action's</th>
@@ -189,17 +166,11 @@
                             <tbody>
                                 @foreach($suppliers as $supplier)
                                 <tr>
-                                    <td>
-                                        <p>
-                                            <img
-                                                src="{{ asset('inventory/images/supplier/'.$supplier->image) }}"
-                                                class="table_image"
-                                            />
-                                        </p>
-                                    </td>
+                                   
                                     <td>{{ $supplier->name }}</td>
                                     <td>{{ $supplier->type }}</td>
                                     <td>{{ $supplier->shop_name }}</td>
+                                    <td>{{ $supplier->phone }}</td>
                                     <td>{{ $supplier->address }}</td>
                                     <td>{{ $supplier->city }}</td>
                                     <td>

@@ -37,7 +37,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-10">
+                        <div class="col-md-12">
                             
                             <h2>Name : <span class="text-secondary font-weight-light">{{$customer->name}}</span></h2>
                             <h6>Shop Name : <span class="text-secondary font-weight-light">{{$customer->shop_name}}</span></h6>
@@ -52,11 +52,6 @@
 
                             
 
-                        </div>
-                        <div class="col-md-2 col-sm-6">                          
-
-                            <img id="showUploadImage" src="{{asset('inventory/images/customer/'.$customer->image)}}" alt="" class="img-fluid border border-secondary p-1">
-                            
                         </div>
                     </div>
                 </div>

@@ -16,11 +16,6 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('supplier_id')->unsigned();
-            $table->integer('total_price_before_discount')->unsigned();
-            $table->integer('discount')->nullable()->unsigned();
-            $table->integer('price_after_discount')->unsigned();
-            $table->integer('due')->nullable();
-            $table->integer('paid')->nullable();
             $table->timestamps();
         });
     }

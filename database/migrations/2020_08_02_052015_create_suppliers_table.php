@@ -21,7 +21,6 @@ class CreateSuppliersTable extends Migration
             $table->string('address')->nullable();
             $table->string('type')->nullable();
             $table->string('shop_name')->default('Individual');
-            $table->string('image')->default('demo.png');
             $table->string('city')->nullable();
             $table->timestamps();
         });

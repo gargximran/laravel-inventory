@@ -17,22 +17,7 @@
      ****************************************/
     $("#zero_config").DataTable();
 
-    const imagePath = "{{asset('inventory/images/logo/upload.png')}}"
-
-    document.getElementById('imageUpload').addEventListener('change', e=>{
-        let image = e.target.files[0]
-        if(image){
-            let reader = new FileReader();
-                reader.readAsDataURL(image);
-                reader.onload = e => {
-                    return document.getElementById('showUploadImage').src = e.target.result
-                };
-        }else{
-            return document.getElementById('showUploadImage').src = imagePath
-        }
-
-        
-    })
+  
 
 
     document.getElementById('resetTrigger').onclick = () => {
@@ -120,14 +105,6 @@
                                 <input name="phone" type="text"  class="form-control" placeholder="Ex: 01734567898">
                             </div>
 
-
-                            <div class="form-group m-t-20">
-                                <label for="imageUpload">Upload Image <small class="text-muted"></small></label>
-                                <input type="file" name="image" id="imageUpload" class="d-none">
-
-                                <label for="imageUpload" class='border border-secondary p-1'>
-                                <img id="showUploadImage" src="{{asset('inventory/images/logo/upload.png')}}" alt="" class="img-fluid"></label>
-                            </div>
                         </div>
                     </div>
 
@@ -167,9 +144,9 @@
                         >
                             <thead>
                                 <tr>
-                                    <th>Image</th>
                                     <th>Name</th>
                                     <th>Shop Name</th>
+                                    <th>Phone</th>
                                     <th>Address</th>
                                     <th>City</th>
                                     <th>Action's</th>
@@ -178,49 +155,44 @@
                             <tbody>
                                 @foreach($customers as $customer)
                                 <tr>
-                                    <td>
-                                        <p>
-                                            <img
-                                                src="{{ asset('inventory/images/customer/'.$customer->image) }}"
-                                                class="table_image"
-                                            />
-                                        </p>
-                                    </td>
                                     <td>{{ $customer->name }}</td>
                                     <td>{{ $customer->shop_name }}</td>
+                                    <td>{{ $customer->phone }}</td>
                                     <td>{{ $customer->address }}</td>
                                     <td>{{ $customer->city }}</td>
                                     <td>
-                                        <a href="{{route('customer_singe_view', $customer->id)}}" class="btn btn-primary  btn-sm"><i class="mdi mdi-eye"></i> View</a> 
-                                        <a href="{{ route('customer_edit', $customer->id) }}" class="btn btn-warning btn-sm"><i class="mdi mdi-account-edit"></i> Edit</a> 
-                                        <div class="btn-group">
-                                            <button
-                                                type="button"
-                                                class="btn btn-danger dropdown-toggle btn-sm"
-                                                data-toggle="dropdown"
-                                                aria-haspopup="true"
-                                                aria-expanded="false"
-                                            >
-                                                <i class="mdi mdi-delete-forever"></i> Delete
-                                            </button>
-                                            <div
-                                                class="dropdown-menu text-center position-absolute" 
-                                                x-placement="bottom-start"
-                                               
-                                            >
-
-                                            <form action="{{route('customer_delete', $customer->id)}}" method="POST">
-                                                @method('delete')
-                                                @csrf
-                                                <button class="dropdown-item bg-danger" type="submit">Confirm Delete?</button>
-                                            </form>
-
-                                                <a
-                                                    class="dropdown-item bg-secondary"
-                                                    href="#"
-                                                    >Cancel</a
+                                        <div class="d-flex justify-content-center">
+                                            <a href="{{route('customer_singe_view', $customer->id)}}" class="btn btn-primary  btn-sm"><i class="mdi mdi-eye"></i> View</a> 
+                                            <a href="{{ route('customer_edit', $customer->id) }}" class="btn btn-warning btn-sm"><i class="mdi mdi-account-edit"></i> Edit</a> 
+                                            <div class="btn-group">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-danger dropdown-toggle btn-sm"
+                                                    data-toggle="dropdown"
+                                                    aria-haspopup="true"
+                                                    aria-expanded="false"
                                                 >
-                                            
+                                                    <i class="mdi mdi-delete-forever"></i> Delete
+                                                </button>
+                                                <div
+                                                    class="dropdown-menu text-center position-absolute" 
+                                                    x-placement="bottom-start"
+                                                
+                                                >
+
+                                                <form action="{{route('customer_delete', $customer->id)}}" method="POST">
+                                                    @method('delete')
+                                                    @csrf
+                                                    <button class="dropdown-item bg-danger" type="submit">Confirm Delete?</button>
+                                                </form>
+
+                                                    <a
+                                                        class="dropdown-item bg-secondary"
+                                                        href="#"
+                                                        >Cancel</a
+                                                    >
+                                                
+                                                </div>
                                             </div>
                                         </div>
                                                                                

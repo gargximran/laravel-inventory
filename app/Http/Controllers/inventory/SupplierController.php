@@ -5,9 +5,6 @@ namespace App\Http\Controllers\inventory;
 use App\Http\Controllers\Controller;
 use App\Models\Inventory\Supplier;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File;
 use Brian2694\Toastr\Facades\Toastr;
 
 class SupplierController extends Controller
@@ -57,12 +54,6 @@ class SupplierController extends Controller
         $supplier->shop_name = $request->shop_name ? $request->shop_name : 'Individual';
         $supplier->city = $request->city;
 
-
-        if($request->image){
-            $imageName = Str::random(30).uniqid().'.png';
-            Image::make($request->image)->encode('png', 80)->save(public_path('inventory/images/supplier/'.$imageName));
-            $supplier->image = $imageName;
-        }
 
         if($supplier->save()){
             Toastr::success('Congratulation! New supplier added..', 'Success');
@@ -121,17 +112,6 @@ class SupplierController extends Controller
         $supplier->city = $request->city;
 
 
-        if($request->image){
-
-
-            if($supplier->image != 'demo.png' && File::exists(public_path('inventory/images/supplier/'.$supplier->image))){
-                File::delete(public_path('inventory/images/supplier/'.$supplier->image));
-            }
-
-            $imageName = Str::random(30).uniqid().'.png';
-            Image::make($request->image)->encode('png', 80)->save(public_path('inventory/images/supplier/'.$imageName));
-            $supplier->image = $imageName;
-        }
 
         if($supplier->save()){
             Toastr::success('Congratulation! Supplier updated..', 'Success');
@@ -151,10 +131,7 @@ class SupplierController extends Controller
     public function destroy(Supplier $supplier)
     {
         if($supplier->delete()){
-            if($supplier->image != 'demo.png' && File::exists(public_path('inventory/images/supplier/'.$supplier->image))){
-                File::delete(public_path('inventory/images/supplier/'.$supplier->image));
-            }
-
+           
             Toastr::error('Supplier has been deleted..', 'Delete Success!');
             return redirect()->route('supplier_view');
         }else{

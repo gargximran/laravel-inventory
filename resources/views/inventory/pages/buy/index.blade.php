@@ -27,22 +27,7 @@
      ****************************************/
     $("#zero_config").DataTable();
 
-    const imagePath = "{{asset('inventory/images/logo/upload.png')}}"
-
-    document.getElementById('imageUpload').addEventListener('change', e=>{
-        let image = e.target.files[0]
-        if(image){
-            let reader = new FileReader();
-                reader.readAsDataURL(image);
-                reader.onload = e => {
-                    return document.getElementById('showUploadImage').src = e.target.result
-                };
-        }else{
-            return document.getElementById('showUploadImage').src = imagePath
-        }
-
-        
-    })
+    
 
 
   
@@ -65,18 +50,9 @@
                                         <td><p><img src="/inventory/images/inventory/${v.image}" class="img-fluid table_image"></p></td>
                                         <td>${v.name}-${v.brandName}-${v.size}-${v.code}</td>
                                         <td><input class="inputNumber selectqty" style="width:45px;" type="number"  value="${v.qty}" min='1' data-inventory="${v.inventory}" ></td>
-                                        <td><input class="inputNumber selectprice" style="width:45px;" type="number"></td>
-                                        <td class="perItemPrice" style="width:25px;">100 tk</td>
+                                        <td><input class="inputNumber selectprice" value="${v.perPrice}" data-inventory="${v.inventory}" style="width:45px;" type="number"></td>
+                                        <td class="perItemPrice" style="width:25px;">${v.total}</td>
                                     </tr>`
-
-
-                        document.getElementById('Selected_invoice').innerHTML += `<tr>
-                            <td><p><img src="/inventory/images/inventory/${v.image}" class="img-fluid table_image"></p></td>
-                            <td>${v.name} | ${v.brandName} | ${v.size} | ${v.code}</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>100 tk</td>
-                        </tr>`
 
 
                                     
@@ -95,18 +71,12 @@
                                         <td><p><img src="/inventory/images/inventory/${v.image}" class="img-fluid table_image"></p></td>
                                         <td>${v.name}-${v.brandName}-${v.size}-${v.code}</td>
                                         <td><input class="inputNumber selectqty" style="width:45px;" type="number"  value="${v.qty}" min='1' data-inventory="${v.inventory}"></td>
-                                        <td><input class="inputNumber selectprice" style="width:45px;" type="number"></td>
-                                        <td class="perItemPrice" style="width:25px;">100 tk</td>
+                                        <td><input data-inventory="${v.inventory}" class="inputNumber selectprice" style="width:45px;" value="${v.perPrice}" type="number"></td>
+                                        <td class="perItemPrice" style="width:25px;">${v.total}"</td>
                                     </tr>`
 
 
-                        document.getElementById('Selected_invoice').innerHTML += `<tr>
-                            <td><p><img src="/inventory/images/inventory/${v.image}" class="img-fluid table_image"></p></td>
-                            <td>${v.name} | ${v.brandName} | ${v.size} | ${v.code}</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>100 tk</td>
-                        </tr>`
+                        
                     })
                 
             }
@@ -129,12 +99,34 @@
                     selectedItems.filter((v, i) => {
                                 if(v.inventory == e.target.dataset.inventory){
                                     selectedItems[i].qty = e.target.value
+                                    selectedItems[i].total = e.target.value * selectedItems[i].perPrice
                                 }
-                            })                           
+                                
+                            }) 
 
-                            perItemPrice[index].innerHTML = itemPrice*e.target.value+ " tk"
+                                                
+
+                            perItemPrice[index].innerHTML = itemPrice * e.target.value+ " tk"
                   
                 
+                }
+            }
+
+            for(let ind in selectprice){
+                selectprice[ind].oninput = e =>{
+                    let quantity = quantityInput[ind].value
+                    selectedItems.filter((v,i) => {
+                        if(v.inventory == e.target.dataset.inventory){
+                            selectedItems[i].perPrice = e.target.value
+                            selectedItems[i].total = e.target.value * selectedItems[i].qty
+
+                                             
+
+                            perItemPrice[ind].innerHTML = quantity * e.target.value+ " tk"
+                        }
+                            
+                    })
+
                 }
             }
                 
@@ -175,6 +167,9 @@
     }
 
     fromNewSupplierFormTo.onclick = ()=>{
+        if(!document.getElementById('supplierName').value || !document.getElementById('supplierPhone').value){
+            return
+        }
         supplierTypeSelection.style.display = 'none';
         newSupplierForm.style.display = 'none';
         inventorySelection.style.display = 'block';
@@ -182,6 +177,45 @@
     }
 
     fromNewInventorySelectionTo.onclick = ()=>{
+        let allTotal = 0;
+        
+
+        document.getElementById('inventories').innerHTML = ''
+        document.getElementById('Selected_invoice').innerHTML = ''
+        for(let r in selectedItems){
+
+            document.getElementById('Selected_invoice').innerHTML += `<tr>
+                                        <td><p><img src="/inventory/images/inventory/${selectedItems[r].image}" class="img-fluid table_image"></p></td>
+                                        <td>${selectedItems[r].name}-${selectedItems[r].brandName}-${selectedItems[r].size}-${selectedItems[r].code}</td>
+                                        <td>${selectedItems[r].qty}</td>
+                                        <td>${selectedItems[r].perPrice}</td>
+                                        <td>${selectedItems[r].total}</td>
+                                    </tr>`
+
+            for(let xx in selectedItems[r]){
+                if(xx == 'inventory'){
+                    document.getElementById('inventories').innerHTML += `<input type="hidden" name="inventory_id[]" value="${selectedItems[r][xx]}">`
+                }
+
+                if(xx == 'qty'){
+                    document.getElementById('inventories').innerHTML += `<input type="hidden" name="quantity[]" value="${selectedItems[r][xx]}">`
+                }
+
+                if(xx == 'perPrice'){
+                    document.getElementById('inventories').innerHTML += `<input type="hidden" name="perPrice[]" value="${selectedItems[r][xx]}">`
+                }
+
+                if(xx == 'total'){
+                    allTotal += parseFloat(selectedItems[r][xx])
+                    document.getElementById('inventories').innerHTML += `<input type="hidden" name="total[]" value="${selectedItems[r][xx]}">`
+                }
+
+
+            }
+        }
+        console.log(allTotal)
+        document.getElementById('invoice_price_before_discount').value = allTotal
+        document.getElementById('invoice_price_before_discount1').innerHTML = allTotal
         supplierTypeSelection.style.display = 'none';
         newSupplierForm.style.display = 'none';
         inventorySelection.style.display = 'none';
@@ -205,6 +239,19 @@
     }
 
     fromInvoiceSelectionBack.onclick = ()=>{
+        document.getElementById('Selected_invoice').innerHTML = ''
+
+        document.getElementById('invoice_price_discount').value = 0
+        document.getElementById('invoice_after_price_discount').value = 0
+        document.getElementById('invoice_price_paid').value = 0
+        document.getElementById('invoice_after_price_due').value = 0
+        document.getElementById('inputOfDiscountfield').value= 0
+        document.getElementById('paidInputField').value= 0
+        document.getElementById('totalToPay').innerHTML = ''
+        document.getElementById('due').innerHTML = ''
+
+
+
         supplierTypeSelection.style.display = 'none';
         newSupplierForm.style.display = 'none';
         inventorySelection.style.display = 'block';
@@ -269,17 +316,17 @@
                             <div class="col-md-6">
                                 <div class="form-group m-t-20">
                                     <label>Supplier Name <small class="text-muted">(required)</small></label>
-                                    <input name="name" type="text" required class="form-control" placeholder="Ex: John Doe">
+                                    <input name="name" id="supplierName" type="text" oninput="document.getElementById('sup_name').value = this.value; document.getElementById('supplierNameShow1').innerHTML = this.value; document.getElementById('supplierNameShow2').innerHTML = this.value;" required class="form-control" placeholder="Ex: John Doe">
                                 </div>
 
                                 <div class="form-group m-t-20">
                                     <label>Shop Name <small class="text-muted"></small></label>
-                                    <input name="shop_name" type="text" class="form-control" placeholder="Ex: SST tech">
+                                    <input name="shop_name" oninput="document.getElementById('sup_shop_name').value = this.value; document.getElementById('supplierShopNameshow1').innerHTML = this.value; document.getElementById('supplierShopNameshow2').innerHTML = this.value;" type="text" class="form-control" placeholder="Ex: SST tech">
                                 </div>
 
                                 <div class="form-group m-t-20">
                                     <label>Supplier type <small class="text-muted"></small></label>
-                                    <select name="type" class="form-control">
+                                    <select onchange="document.getElementById('sup_type').value = this.value;" name="type" class="form-control">
                                         <option value="0">Select Supplier Type</option>
                                         <option value='1'>Whole Saler</option>
                                         <option value='2'>Distributor</option>
@@ -290,12 +337,12 @@
 
                                 <div class="form-group m-t-20">
                                     <label>Address Line <small class="text-muted"></small></label>
-                                    <input name="address" type="text"  class="form-control" placeholder="Ex: Uttara-11, house-2, road-12">
+                                    <input oninput="document.getElementById('sup_address').value = this.value; document.getElementById('supplierAddressShow1').innerHTML = this.value; document.getElementById('supplierAddressShow2').innerHTML = this.value; " name="address" type="text"  class="form-control" placeholder="Ex: Uttara-11, house-2, road-12">
                                 </div>
 
                                 <div class="form-group m-t-20">
                                     <label>City <small class="text-muted"></small></label>
-                                    <input name="city" type="text"  class="form-control" placeholder="Ex: Uttara">
+                                    <input oninput="document.getElementById('sup_city').value = this.value;document.getElementById('supplierCityShow1').innerHTML = this.value; document.getElementById('supplierCityShow2').innerHTML = this.value; " name="city" type="text"  class="form-control" placeholder="Ex: Uttara">
                                 </div>
 
 
@@ -306,22 +353,15 @@
                             <div class="col-md-6">
                                 <div class="form-group m-t-20">
                                     <label>Email Address</label>
-                                    <input name="email" type="text"  class="form-control" placeholder="Ex: example@mail.com">
+                                    <input oninput="document.getElementById('sup_email').value = this.value; document.getElementById('supplierEmailShow1').innerHTML = this.value; document.getElementById('supplierEmailShow2').innerHTML = this.value;" name="email" type="text"  class="form-control" placeholder="Ex: example@mail.com">
                                 </div>
 
                                 <div class="form-group m-t-20">
                                     <label>Phone <small class="text-muted"></small></label>
-                                    <input name="phone" type="text"  class="form-control" placeholder="Ex: 01734567898">
+                                    <input id="supplierPhone" oninput="document.getElementById('sup_phone').value = this.value; document.getElementById('supplierPhoneShow1').innerHTML = this.value; document.getElementById('supplierPhoneShow2').innerHTML = this.value;" name="phone" type="text"  class="form-control" placeholder="Ex: 01734567898">
                                 </div>
 
 
-                                <div class="form-group m-t-20">
-                                    <label for="imageUpload" class="text-center d-block">Upload Image <small class="text-muted"></small></label>
-                                    <input accept="image/*" type="file" name="image" id="imageUpload" class="d-none">
-
-                                    <label for="imageUpload"  class=' row' >
-                                    <img id="showUploadImage" src="{{asset('inventory/images/logo/upload.png')}}" alt="" class="img-fluid border border-secondary p-1 col-md-6 offset-md-3"></label>
-                                </div>
                             </div>
                         </div>
 
@@ -345,18 +385,15 @@
                 <!-- inventory selector start -->
                 <div class="card-body" id="inventory_selection">
                     <div class="row">
-                        <div class="col-10">
-                            <h2>Supplier Name : <span class="font-weight-light">Shahajan Electronic</span> </h2>
-                            <h3>Shop Name : <span class="font-weight-light">Shahajan Electronic</span></h3>
-                            <h4>Address : <span class="font-weight-light">Shahajan Electronic</span></h4>
-                            <h4>City : <span class="font-weight-light">City</span></h4>
-                            <h4>Phone : <span class="font-weight-light">01993039484</span></h4>
-                            <h4>Email : <span class="font-weight-light">example@gmail.com</span></h4>
+                        <div class="col-12">
+                            <h2>Supplier Name : <span class="font-weight-light" id="supplierNameShow1">N/A</span> </h2>
+                            <h3>Shop Name : <span class="font-weight-light" id="supplierShopNameshow1">N/A</span></h3>
+                            <h4>Address : <span class="font-weight-light" id="supplierAddressShow1">N/A</span></h4>
+                            <h4>City : <span class="font-weight-light" id="supplierCityShow1">N/A</span></h4>
+                            <h4>Phone : <span class="font-weight-light" id="supplierPhoneShow1">N/A</span></h4>
+                            <h4>Email : <span class="font-weight-light" id="supplierEmailShow1">N/A</span></h4>
                         </div>
 
-                        <div class="col-2">
-                            <img src="" alt="" class="img-fluid border border-secondary p-1">
-                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5 border border-secondary">
@@ -397,7 +434,7 @@
                                         @foreach($inventories as $inventory)
                                         <tr>
                                             <td>
-                                                <input type="checkbox" data-inventory="{{$inventory->id}}"  data-name="{{$inventory->name}}" data-image="{{$inventory->image}}" data-brand-name="{{$inventory->brand->name}}" data-size="{{$inventory->size}}" data-code="{{$inventory->code}}" data-qty="0"  class="selectInventoryToBuy">
+                                                <input type="checkbox" data-inventory="{{$inventory->id}}"  data-name="{{$inventory->name}}" data-image="{{$inventory->image}}" data-brand-name="{{$inventory->brand->name}}" data-size="{{$inventory->size}}" data-code="{{$inventory->code}}" data-qty="0" data-per-price="0" data-total="0"  class="selectInventoryToBuy">
                                             </td>
                                             <td>
                                                 <p>
@@ -436,21 +473,19 @@
 
 
 
-                <!-- inventory selector start -->
+                <!-- invoice  start -->
                 <div class="card-body" id="invoice_selection">
                     <div class="row">
-                        <div class="col-10">
-                            <h2>Supplier Name : <span class="font-weight-light">Shahajan Electronic</span> </h2>
-                            <h3>Shop Name : <span class="font-weight-light">Shahajan Electronic</span></h3>
-                            <h4>Address : <span class="font-weight-light">Shahajan Electronic</span></h4>
-                            <h4>City : <span class="font-weight-light">City</span></h4>
-                            <h4>Phone : <span class="font-weight-light">01993039484</span></h4>
-                            <h4>Email : <span class="font-weight-light">example@gmail.com</span></h4>
+                        <div class="col-12">
+                            <h2>Supplier Name : <span class="font-weight-light" id="supplierNameShow2">N/A</span> </h2>
+                            <h3>Shop Name : <span class="font-weight-light" id="supplierShopNameshow2">N/A</span></h3>
+                            <h4>Address : <span class="font-weight-light" id="supplierAddressShow2">N/A</span></h4>
+                            <h4>City : <span class="font-weight-light" id="supplierCityShow2">N/A</span></h4>
+                            <h4>Phone : <span class="font-weight-light" id="supplierPhoneShow2">N/A</span></h4>
+                            <h4>Email : <span class="font-weight-light" id="supplierEmailShow2">N/A</span></h4>
                         </div>
 
-                        <div class="col-2">
-                            <img src="" alt="" class="img-fluid border border-secondary p-1">
-                        </div>
+                        
                     </div>
                     <div class="row">
                         <div class="col-md-10 offset-md-1 border border-secondary">
@@ -473,14 +508,40 @@
 
                         <div class="col-12 text-right">
                             <hr>
-                            <h4>Total Price Before Discount : 100</h4>
-                            <h4>Discount : 100</h4>
-                            <h4>Total Price To Pay : 100</h4>
-                            <h4>Paid : 100</h4>
-                            <h4>Due : 100</h4>
+                            <h4>Total Price Before Discount : <span id="invoice_price_before_discount1"></span></h4>
+                            <h4>Discount : <input id="inputOfDiscountfield" type="number" class="inputNumber" oninput="document.getElementById('totalToPay').innerHTML = parseFloat(document.getElementById('invoice_price_before_discount1').innerHTML) - this.value;document.getElementById('invoice_price_discount').value = this.value;document.getElementById('invoice_after_price_discount').value = parseFloat(document.getElementById('invoice_price_before_discount1').innerHTML) - this.value; " value="0"></h4>
+
+                            <h4>Total Price To Pay : <span id="totalToPay"></span></h4>
+
+                            <h4>Paid : <input id="paidInputField" type="number" class="inputNumber" oninput="document.getElementById('due').innerHTML = parseFloat(document.getElementById('totalToPay').innerHTML) - this.value; document.getElementById('invoice_after_price_due').value = parseFloat(document.getElementById('totalToPay').innerHTML) - this.value; document.getElementById('invoice_price_paid').value = this.value" value="0"></h4>
+
+                            <h4>Due : <span id="due"></span></h4>
                             <hr>
                         </div>
                     </div>
+                    <form action="{{route('confirm_buy_from_supplier')}}" method="POST" id="invoiceForm" class="d-none">
+
+                        @csrf
+                        <div class="d-none" id="supplier_detail">
+                            <input type="hidden" name="sup_name" id="sup_name">
+                            <input type="hidden" name="sup_email" id="sup_email">
+                            <input type="hidden" name="sup_shop_name" id="sup_shop_name">
+                            <input type="hidden" name="sup_type" id="sup_type">
+                            <input type="hidden" name="sup_address" id="sup_address">
+                            <input type="hidden" name="sup_city" id="sup_city">
+                            <input type="hidden" name="sup_phone" id="sup_phone">
+                        </div>
+                        <div class="d-none" id="invoice">
+                            <input type="hidden" name="invoice_price_before_discount"  id="invoice_price_before_discount">
+                            <input type="hidden" name="invoice_price_discount" value="0"  id="invoice_price_discount">
+                            <input type="hidden" name="invoice_price_after_discount"  value="0" id="invoice_after_price_discount">
+                            <input type="hidden" name="invoice_price_paid" value="0"  id="invoice_price_paid">
+                            <input type="hidden" name="invoice_price_due" value="0"  id="invoice_after_price_due">
+                        </div>
+                        <div class="d-none" id="inventories">
+
+                        </div>
+                    </form>
 
                     <div class="row">
                             <div class="col-12 text-right">
@@ -488,7 +549,7 @@
                                
                             
                                 <button type="button" id="fromInvoiceSelectionBack" class="btn btn-secondary" >back</button>
-                                <button type="button" id="fromInvoiceSelectionTo" class="btn btn-primary">Next</button>
+                                <button type="button" onclick="document.getElementById('invoiceForm').submit();" class="btn btn-primary">Confirm</button>
                             </div>
                         </div>
                 </div>
