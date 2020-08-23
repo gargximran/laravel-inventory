@@ -65,6 +65,66 @@
                                 
                             </ul>
                         </li>
+
+
+
+                        <li class="sidebar-item"> 
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <i class="mdi mdi-receipt"></i>
+                                <span class="hide-menu">Buy History </span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse  first-level">
+                                <li class="sidebar-item ml-3">
+                                    <a href="{{route('buy_history')}}" class="sidebar-link">
+                                        <i class="mdi mdi-note-outline"></i>
+                                        <span class="hide-menu"> Inventory Buy History </span>
+                                    </a>
+                                </li>
+
+                                <li class="sidebar-item ml-3">
+                                    <a href="{{route('invoice_history')}}" class="sidebar-link">
+                                        <i class="mdi mdi-note-outline"></i>
+                                        <span class="hide-menu"> Invoices </span>
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                        </li>
+
+
+
+                        <li class="sidebar-item"> 
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <i class="mdi mdi-receipt"></i>
+                                <span class="hide-menu">Stock Management </span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse  first-level">
+                                <li class="sidebar-item ml-3">
+                                    <a href="{{route('all_stock')}}" class="sidebar-link">
+                                        <i class="mdi mdi-note-outline"></i>
+                                        <span class="hide-menu"> All Stock Available </span>
+                                    </a>
+                                </li>
+
+                                <li class="sidebar-item ml-3">
+                                    <a href="{{route('expired_stock')}}" class="sidebar-link">
+                                        <i class="mdi mdi-note-outline"></i>
+                                        <span class="hide-menu"> Expired Stock </span>
+                                    </a>
+                                </li>
+
+
+                                <li class="sidebar-item ml-3">
+                                    <a href="{{route('finished_stock')}}" class="sidebar-link">
+                                        <i class="mdi mdi-note-outline"></i>
+                                        <span class="hide-menu"> Finished Stock </span>
+                                    </a>
+                                </li>
+
+
+                                
+                            </ul>
+                        </li>
                         
                     </ul>
                 </nav>

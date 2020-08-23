@@ -82,15 +82,30 @@ Route::namespace('inventory')->group(function(){
     Route::prefix('inventories')->group(function(){
         Route::get('/', 'InventoryController@index')->name('inventory_view');
         Route::post('/', 'InventoryController@store')->name('inventory_store');
+        Route::get('/{inventory:id}/show', 'InventoryController@show')->name('inventory_watch');
     });
 
     //manage buy from supplier
     Route::prefix('buy_from_supplier')->group(function(){
 
         Route::get('/', 'BuyFromSupplierController@index')->name('buy_from_supplier');
-        Route::post('/', function(Request $request){
-            dd($request);
-        })->name('confirm_buy_from_supplier');
+        Route::post('/', 'BuyFromSupplierController@store')->name('buy_form_supplier_store');
+         
+
+    });
+
+    Route::prefix('buy_hostory')->group(function(){
+
+        Route::get('/buy', 'InvoiceController@buy_hostory')->name('buy_history');
+        Route::get('/invoice', 'InvoiceController@invoice_history')->name('invoice_history');
+    });
+
+    Route::prefix('stock')->group(function(){
+
+
+        Route::get('all', 'InvoiceController@all_stock')->name('all_stock');
+        Route::get('expired', 'InvoiceController@expired_stock')->name('expired_stock');
+        Route::get('finished', 'InvoiceController@finished_stock')->name('finished_stock');
 
     });
     

@@ -17,8 +17,10 @@ class CreateBuysTable extends Migration
             $table->increments('id');
             $table->integer('inventory_id')->unsigned();
             $table->integer('supplier_id')->unsigned();
+            $table->integer('invoice_id')->unsigned();
             $table->integer('quantity')->unsigned();
             $table->integer('per_price')->unsigned();
+            $table->timestamp('expireDate');
             $table->integer('total_price')->unsigned();
             $table->timestamps();
         });

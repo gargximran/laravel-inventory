@@ -183,7 +183,7 @@
                                     <td>{{ $inventory->code }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
-                                            <a href="" class="btn btn-primary  btn-sm"><i class="mdi mdi-eye"></i> View</a> 
+                                            <a href="{{ route('inventory_watch', $inventory->id) }}" class="btn btn-primary  btn-sm"><i class="mdi mdi-eye"></i> View</a> 
                                             <a href="" class="btn btn-warning btn-sm"><i class="mdi mdi-account-edit"></i> Edit</a> 
                                             <div class="btn-group">
                                                 <button

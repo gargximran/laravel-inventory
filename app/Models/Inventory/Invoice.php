@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models\Inventory;
+use Carbon\Carbon;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,5 +20,12 @@ class Invoice extends Model
     }
     public function expense(){
         return $this->hasOne(Expense::class);
+    }
+
+    public function getCreatedAtAttribute($value){
+        $date = Carbon::parse($value);
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d | h:i:s A');
+    
+        
     }
 }

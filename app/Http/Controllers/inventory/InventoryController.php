@@ -90,7 +90,7 @@ class InventoryController extends Controller
      */
     public function show(Inventory $inventory)
     {
-        //
+        return view('inventory.pages.inventory.single_view', compact('inventory'));
     }
 
     /**

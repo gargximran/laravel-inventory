@@ -1,5 +1,27 @@
 @extends('inventory.layout.app') 
+@section('per_page_css')
+<link href="{{ asset('inventory/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css')}}" rel="stylesheet"/>
 
+@endsection 
+
+@section('per_page_js')
+<script src="{{ asset('inventory/assets/extra-libs/DataTables/datatables.min.js') }}"></script>
+
+    
+<script>
+    /****************************************
+     *       Basic Table                   *
+     ****************************************/
+    $("#zero_config").DataTable();
+
+    $("#zero_config1").DataTable();
+
+
+
+  
+</script>
+
+@endsection 
 
 
 @section('main_card_content')
@@ -54,6 +76,116 @@
                             
 
                         </div>                       
+                    </div>
+                    <hr>
+                    <h2 class="bg-secondary text-warning px-2">Invoice History</h2>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table
+                                    id="zero_config"
+                                    class="table table-bordered table-hover text-center"
+                                >
+                                    <thead>
+                                        <tr>
+                                            <th>Invoice No.</th>
+                                            <th>Date</th>
+                                            <th>Total</th>
+                                            <th>Paid</th>
+                                            <th>Due</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($supplier->invoice as $invoice)
+                                        <tr>
+                                            <td>
+                                                {{$invoice->id}}
+                                            </td>
+                                            <td>
+                                               {{$invoice->created_at}}
+                                            </td>
+                                            <td>{{ $invoice->expense->total_after_discount }} tk</td>
+                                            <td>{{ $invoice->expense->paid }} tk</td>
+                                            <td>{{ $invoice->expense->due }} tk</td>
+                                           
+                                            
+                                        </tr>
+                                            @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <h2 class="bg-secondary text-warning px-2">Inventory History</h2>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table
+                                    id="zero_config1"
+                                    class="table table-bordered table-hover text-center"
+                                >
+                                    <thead>
+                                        <tr>
+                                            <th>Invoice No.</th>
+                                            <th>Batch No.</th>
+                                            <th>Name</th>
+                                            <th>Size</th>
+                                            <th>Code</th>
+                                            <th>Quantity</th>
+                                            <th>Per Price</th>
+                                            <th>Buy Date</th>
+                                            <th>Expire Date</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($supplier->buy as $buy)
+                                        <tr>
+                                            <td>
+                                                {{$buy->invoice->id}}
+                                            </td>
+                                            <td>
+                                                {{$buy->id}}
+                                            </td>
+                                            <td>
+                                               {{$buy->inventory->name}}
+                                            </td>
+                                            <td>
+                                               {{$buy->inventory->size}}
+                                            </td>
+                                            <td>
+                                               {{$buy->inventory->code}}
+                                            </td>
+
+                                            <td>
+                                                {{$buy->inventory->quantity}}
+                                            </td>
+
+                                            <td>
+                                               {{$buy->per_price}} tk
+                                            </td>
+                                            <td>
+                                               {{$buy->created_at}}
+                                            </td>
+
+                                            <td>
+                                                @if($buy->expireDate)
+                                                {{$buy->expireDate}}
+                                                @else
+                                                    Unlimited
+                                                @endif
+                                            </td>
+                                          
+                                            
+                                        </tr>
+                                            @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
                    
