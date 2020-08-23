@@ -81,6 +81,7 @@
             <div class="card-body">
                 <h5 class="card-title m-b-0">Add Inventory</h5>
                 <form action="{{route('inventory_store')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group m-t-20">
