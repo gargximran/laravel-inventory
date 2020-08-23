@@ -67,7 +67,10 @@ class InventoryController extends Controller
         $inventory->brand()->associate($brand);
         
         $imageName = time().Str::random(12).uniqid().'.png';
-        Image::make($request->image)->encode('png',90)->save(public_path('inventory/images/inventory/'.$imageName));
+
+        $image = Image::make($request->image);
+        $image->encode('png',90);
+        $image->save(public_path('inventory/images/inventory/'.$imageName));
 
         $inventory->image = $imageName;
 
