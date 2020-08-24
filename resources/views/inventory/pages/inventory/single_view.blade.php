@@ -15,6 +15,7 @@
      *       Basic Table                   *
      ****************************************/
     $("#zero_config").DataTable();
+    $("#zero_config1").DataTable();
 
   
 </script>
@@ -89,7 +90,7 @@
     </div>
 
     <hr>
-    <h2 class="bg-secondary text-warning px-2">Invoice Purchase History</h2>
+    <h2 class="bg-secondary text-warning px-2">Purchase History</h2>
     <div class="row">
         <div class="col-12">
             <div class="table-responsive">
@@ -127,6 +128,50 @@
                             
                         </tr>
                             @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <hr>
+    <h2 class="bg-secondary text-warning px-2">Damage History</h2>
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table
+                    id="zero_config1"
+                    class="table table-bordered table-hover text-center"
+                >
+                    <thead>
+                        <tr>
+                    
+                            <th>Batch No.</th>
+                            <th>Purchase Date</th>
+                            <th>Damage Date</th>
+                            <th>Per Price</th>
+                            <th>Quantity</th>
+                            <th>Supplier Name</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($inventory->buy as $buy)
+                            @foreach ($buy->damages as $damage)
+                                <tr>
+                                    <td>{{$damage->batch}}</td>
+                                    <td>{{$buy->created_at}}</td>
+                                    <td>{{$damage->created_at}}</td>
+                                    <td>{{$buy->per_price}}</td>
+                                    <td>{{$damage->quantity}}</td>
+                                    <td>{{$buy->supplier->name}}</td>
+                                </tr>
+                            @endforeach
+                        @endforeach
                     </tbody>
                 </table>
             </div>

@@ -88,6 +88,7 @@
                                     <th>Size</th>
                                     <th>Code</th>
                                     <th>Quantity</th>
+                                    <th>Damages</th>
                                     <th>Per Price</th>
                                     <th>Buy Date</th>
                                     <th>Expire Date</th>
@@ -109,6 +110,7 @@
                                     <td>{{ $buy->inventory->size }}</td>
                                     <td>{{ $buy->inventory->code }}</td>
                                     <td>{{ $buy->quantity }}</td>
+                                    <td>{{ $buy->damage }}</td>
                                     <td>{{ $buy->per_price }}</td>
                                     <td>{{ $buy->created_at }}</td>
                                     <td>{{ $buy->expireDate }}</td>

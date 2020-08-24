@@ -114,9 +114,9 @@
                                     @php
                                     
 
-                                        $exp = explode('|',$stock->created_at);
+                                        $exp = $stock->created_at;
    
-                                        $datework = Carbon\Carbon::createFromDate($exp[0]);
+                                        $datework = Carbon\Carbon::createFromDate($exp);
                                         $now = Carbon\Carbon::now();
                                        
                                     @endphp

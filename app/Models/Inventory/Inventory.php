@@ -22,7 +22,7 @@ class Inventory extends Model
 
     public function getCreatedAtAttribute($value){
         $date = Carbon::parse($value);
-        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d | h:i:s A');
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
     
     }
 
@@ -30,5 +30,9 @@ class Inventory extends Model
 
     public function stock(){
         return $this->hasMany(Stock::class);
+    }
+
+    public function damageProduct(){
+        return $this->hasMany(DamageProduct::class);
     }
 }

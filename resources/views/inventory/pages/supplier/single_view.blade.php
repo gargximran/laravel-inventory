@@ -118,7 +118,8 @@
                         </div>
                     </div>
 
-
+                    <hr>
+                    <br>
                     <h2 class="bg-secondary text-warning px-2">Inventory History</h2>
                     <div class="row">
                         <div class="col-12">
@@ -182,6 +183,65 @@
                                             
                                         </tr>
                                             @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <hr>
+                    <br>
+                    <h2 class="bg-secondary text-warning px-2">Damage History</h2>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table
+                                    id="zero_config1"
+                                    class="table table-bordered table-hover text-center"
+                                >
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Batch No.</th>
+                                            <th>Name</th>
+                                            <th>Size</th>
+                                            <th>Code</th>
+                                            <th>Quantity</th>
+                                            <th>Per Price</th>
+                                            <th>Buy Date</th>
+                                            <th>Damage Date</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($supplier->buy as $buy)
+                                            @foreach ($buy->damages as $damage)
+                                                <tr>
+                                                    <td>
+                                                        <p>
+                                                            <img
+                                                                src="{{ asset('inventory/images/inventory/'.$damage->inventory->image) }}"
+                                                                class="table_image"
+                                                            />
+                                                        </p>
+                                                    </td>
+                                                    <td>{{$damage->batch}}</td>
+                                                    <td>{{$damage->inventory->name}}</td>
+                                                    <td>{{$damage->inventory->size}}</td>
+                                                    <td>{{$damage->inventory->code}}</td>
+                                                    <td>{{$damage->quantity}}</td>
+                                                    <td>{{$buy->per_price}}</td>
+                                                    <td>{{$buy->created_at}}</td>
+                                                    <td>{{$damage->created_at}}</td>
+                                                    
+                                                
+                                                    
+                                                </tr>
+                                            @endforeach
+                                        
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

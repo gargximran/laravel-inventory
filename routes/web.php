@@ -108,5 +108,14 @@ Route::namespace('inventory')->group(function(){
         Route::get('finished', 'InvoiceController@finished_stock')->name('finished_stock');
 
     });
+
+
+    Route::prefix('damage')->group(function(){
+
+
+        Route::get('all', 'DamageController@all_damage')->name('all_damage');
+        Route::post('all', 'DamageController@add_damage')->name('add_damage');
+
+    });
     
 });
