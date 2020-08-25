@@ -21,6 +21,7 @@ class CreateExpensesTable extends Migration
             $table->integer('paid')->unsigned()->nullable();
             $table->integer('due')->unsigned()->nullable();
             $table->integer('invoice_id')->unsigned();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

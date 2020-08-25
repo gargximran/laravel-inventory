@@ -16,6 +16,8 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('supplier_id')->unsigned();
+          
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -30,3 +32,4 @@ class CreateInvoicesTable extends Migration
         Schema::dropIfExists('invoices');
     }
 }
+ 

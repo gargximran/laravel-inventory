@@ -22,6 +22,7 @@ class CreateSuppliersTable extends Migration
             $table->string('type')->nullable();
             $table->string('shop_name')->default('Individual');
             $table->string('city')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

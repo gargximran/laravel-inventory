@@ -9,6 +9,7 @@ use App\Models\Inventory\Inventory;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 use Brian2694\Toastr\Facades\Toastr;
+use Carbon\Carbon;
 
 class DamageController extends Controller
 {
@@ -25,7 +26,7 @@ class DamageController extends Controller
         
         $stock = Stock::where('batch', $request->batch)->first();
 
-        $inventory = Inventory::find($stock->inventory_id);
+        
         $buy = Buy::find($request->batch);
 
 
@@ -40,6 +41,7 @@ class DamageController extends Controller
             Toastr::error('Please input correct quantity!', 'Quantity is over stock!');
             return redirect()->back();
         }
+        $inventory = Inventory::find($stock->inventory_id);
 
 
 
@@ -53,11 +55,6 @@ class DamageController extends Controller
             $damage->batch = $request->batch;
             $damage->quantity = $request->quantity;
         }
-
-
-
-
-
 
 
         
@@ -79,17 +76,74 @@ class DamageController extends Controller
             return redirect()->back();
         }
 
-
-
-
-
-
-
         
-        
+    }
 
 
 
-        
+
+    public function return(Buy $buy, $damage, Request $request){
+
+
+
+
+        $dam = DamageProduct::find($damage);
+
+
+        if(!$dam){
+            Toastr::warning('Damage Not Found!');
+            return redirect()->back();
+        }
+
+        if($dam->quantity < $request->quantity){
+            Toastr::warning('Invalid danage quantity!');
+            return redirect()->back();
+        }
+
+
+
+
+        $buy->damage -= $request->quantity;
+        $buy->save();
+
+        if($dam->quantity == $request->quantity){
+            $dam->delete();
+        }else{
+            $dam->quantity -= $request->quantity;
+            $dam->save();
+        }
+
+
+
+        $return = new Buy();
+        $return->inventory_id = $buy->inventory_id;
+        $return->supplier_id = $buy->supplier_id;
+        $return->invoice_id = $buy->invoice_id;
+        $return->quantity = $request->quantity ?$request->quantity : null ;
+        $return->per_price = $buy->per_price;
+        $return->expireDate = $request->expire ? Carbon::now()->addDays($request->expire): null;
+        $return->total_price = 0;
+        $return->returnFrom = $buy->id;
+        if($return->save()){
+            $stock = new Stock();
+            $stock->inventory_id = $buy->inventory_id;
+            $stock->batch = $return->id;
+            $stock->quantity = $request->quantity;
+            $stock->expireDate = $request->expire ? Carbon::now()->addDays($request->expire): null;
+            $stock->purchase_price = $buy->per_price;
+            $stock->save();
+
+            $inventory = Inventory::find($buy->inventory_id);
+            $inventory->quantity+= $request->quantity;
+            $inventory->save();
+        }
+        Toastr::success('Return Successfully!');
+        return redirect()->back();
+
+
+
+
+
+       
     }
 }

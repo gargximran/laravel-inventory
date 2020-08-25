@@ -120,7 +120,7 @@
 
                     <hr>
                     <br>
-                    <h2 class="bg-secondary text-warning px-2">Inventory History</h2>
+                    <h2 class="bg-secondary text-warning px-2">Buy History</h2>
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
@@ -136,6 +136,7 @@
                                             <th>Size</th>
                                             <th>Code</th>
                                             <th>Quantity</th>
+                                            <th>Damage</th>
                                             <th>Per Price</th>
                                             <th>Buy Date</th>
                                             <th>Expire Date</th>
@@ -162,7 +163,11 @@
                                             </td>
 
                                             <td>
-                                                {{$buy->inventory->quantity}}
+                                                {{$buy->quantity}}
+                                            </td>
+
+                                            <td>
+                                                {{$buy->damage}}
                                             </td>
 
                                             <td>
@@ -235,6 +240,68 @@
                                                     <td>{{$buy->per_price}}</td>
                                                     <td>{{$buy->created_at}}</td>
                                                     <td>{{$damage->created_at}}</td>
+                                                    
+                                                
+                                                    
+                                                </tr>
+                                            @endforeach
+                                        
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <hr>
+                    <br>
+                    <h2 class="bg-secondary text-warning px-2">Return History</h2>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table
+                                    id="zero_config1"
+                                    class="table table-bordered table-hover text-center"
+                                >
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Batch No.</th>
+                                            <th>Name</th>
+                                            <th>Size</th>
+                                            <th>Code</th>
+                                            <th>Quantity</th>
+                                            <th>Per Price</th>
+                                            <th>Return From Batch</th>
+                                            <th>Return Date</th>
+                                            <th>Expire Date</th>
+                                        
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($supplier->buy as $buy)
+                                        
+                                            @foreach ($buy->return as $return)
+                                                <tr>
+                                                    <td>
+                                                        <p>
+                                                            <img
+                                                                src="{{ asset('inventory/images/inventory/'.$return->inventory->image) }}"
+                                                                class="table_image"
+                                                            />
+                                                        </p>
+                                                    </td>
+                                                    <td>{{$return->id}}</td>
+                                                    <td>{{$return->inventory->name}}</td>
+                                                    <td>{{$return->inventory->size}}</td>
+                                                    <td>{{$return->inventory->code}}</td>
+                                                    <td>{{$return->quantity}}</td>
+                                                    <td>{{$return->per_price}}</td>
+                                                    <td>{{$return->returnFrom}}</td>
+                                                    <td>{{$return->created_at}}</td>
+                                                    <td>{{$return->expireDate}}</td>
                                                     
                                                 
                                                     

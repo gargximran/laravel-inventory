@@ -52,44 +52,36 @@
                         
                         <li class="sidebar-item"> 
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                                <i class="mdi mdi-receipt"></i>
+                                <i class="mdi mdi-message-plus"></i>
                                 <span class="hide-menu">Buy Action </span>
                             </a>
                             <ul aria-expanded="false" class="collapse  first-level">
                                 <li class="sidebar-item ml-3">
                                     <a href="{{route('buy_from_supplier')}}" class="sidebar-link">
-                                        <i class="mdi mdi-note-outline"></i>
+                                        <i class="mdi mdi-note-plus"></i>
                                         <span class="hide-menu"> Import Inventory </span>
                                     </a>
                                 </li>
-                                
-                            </ul>
-                        </li>
-
-
-
-                        <li class="sidebar-item"> 
-                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                                <i class="mdi mdi-receipt"></i>
-                                <span class="hide-menu">Buy History </span>
-                            </a>
-                            <ul aria-expanded="false" class="collapse  first-level">
                                 <li class="sidebar-item ml-3">
                                     <a href="{{route('buy_history')}}" class="sidebar-link">
-                                        <i class="mdi mdi-note-outline"></i>
+                                        <i class="mdi mdi-history"></i>
                                         <span class="hide-menu"> Inventory Buy History </span>
                                     </a>
                                 </li>
 
                                 <li class="sidebar-item ml-3">
                                     <a href="{{route('invoice_history')}}" class="sidebar-link">
-                                        <i class="mdi mdi-note-outline"></i>
+                                        <i class="mdi mdi-format-page-break"></i>
                                         <span class="hide-menu"> Invoices </span>
                                     </a>
                                 </li>
                                 
                             </ul>
                         </li>
+
+
+
+                    
 
 
 
@@ -145,7 +137,7 @@
                                 </li>
 
                                 <li class="sidebar-item ml-3">
-                                    <a href="" class="sidebar-link">
+                                    <a href="javascript:void(0)" class="sidebar-link">
                                         <i class="mdi mdi-note-outline"></i>
                                         <span class="hide-menu"> Returned Inventory </span>
                                     </a>

@@ -115,6 +115,7 @@ Route::namespace('inventory')->group(function(){
 
         Route::get('all', 'DamageController@all_damage')->name('all_damage');
         Route::post('all', 'DamageController@add_damage')->name('add_damage');
+        Route::post('return/{buy:id}/{damage:id}', 'DamageController@return')->name('return_damage');
 
     });
     

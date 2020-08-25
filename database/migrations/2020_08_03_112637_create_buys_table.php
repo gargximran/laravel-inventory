@@ -20,8 +20,10 @@ class CreateBuysTable extends Migration
             $table->integer('invoice_id')->unsigned();
             $table->integer('quantity')->unsigned();
             $table->integer('per_price')->unsigned();
-            $table->timestamp('expireDate');
+            $table->timestamp('expireDate')->nullable();
             $table->integer('total_price')->unsigned();
+            $table->string('returnFrom')->default(0)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -20,6 +20,7 @@ class CreateStocksTable extends Migration
             $table->integer('quantity')->unsigned();
             $table->timestamp('expireDate')->nullable();
             $table->string('purchase_price');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

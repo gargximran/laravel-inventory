@@ -141,6 +141,7 @@
                                     <th>Buy Date</th>
                                     <th>Damage Date</th>
                                     <th>Supplier Name</th>
+                                    <th>Action</th>
                                     
                                 </tr>
                             </thead>
@@ -161,7 +162,44 @@
                                     <td>{{ $damage->quantity}}</td>
                                     <td>{{ $damage->buy->created_at}}</td>
                                     <td>{{ $damage->created_at}}</td>
-                                    <td>{{ $damage->buy->supplier->name}}</td>                                 
+                                    <td>{{ $damage->buy->supplier->name}}</td>   
+                                    <td>
+                                        <div class="d-flex">                                            
+                                            <div class="btn-group">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-danger dropdown-toggle btn-sm"
+                                                    data-toggle="dropdown"
+                                                    aria-haspopup="true"
+                                                    aria-expanded="false"
+                                                >
+                                                    <i class="mdi mdi-delete-forever"></i> Return
+                                                </button>
+                                                <div
+                                                    class="dropdown-menu text-center position-absolute" 
+                                                    x-placement="bottom-start"
+                                                
+                                                >
+
+                                                    <form action="{{route('return_damage',[ $damage->batch, $damage->id])}}" method="POST">
+                                               
+                                                        @csrf
+                                                   
+                                                        <input placeholder="Quantity" value="{{ $damage->quantity}}" type="number" class="form-control" name="quantity">
+                                                        <br>
+                                                        <input placeholder="Expire Day" type="number" class="form-control" name="expire">
+                                                        <br>
+                                                        <hr>
+
+                                                        <button class="dropdown-item bg-warning" type="submit">Confirm Return?</button>
+                                                    </form>
+
+                                                    
+                                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>                              
                                    
                                 </tr>
                                 @endforeach

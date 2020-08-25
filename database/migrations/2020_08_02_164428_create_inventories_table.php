@@ -21,6 +21,7 @@ class CreateInventoriesTable extends Migration
             $table->integer('quantity')->unsigned();
             $table->integer('brand_id')->unsigned();
             $table->string('image')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

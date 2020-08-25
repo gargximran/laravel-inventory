@@ -3,16 +3,18 @@
 namespace App\Models\Inventory;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Supplier extends Model
 {
+    use SoftDeletes;
     public function buy()
     {
-        return $this->hasMany(Buy::class);
+        return $this->hasMany(Buy::class)->withTrashed();
     }
 
     public function invoice(){
-        return $this->hasMany(Invoice::class);
+        return $this->hasMany(Invoice::class)->withTrashed();
     }
 
     

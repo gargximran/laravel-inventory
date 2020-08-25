@@ -3,11 +3,12 @@
 namespace App\Models\Inventory;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Brand extends Model
 {
+    use SoftDeletes;
     public function inventory(){
-        return $this->hasMany(Inventory::class);
+        return $this->hasMany(Inventory::class)->withTrashed();
     }
 
     public function getCreatedAtAttribute($value){

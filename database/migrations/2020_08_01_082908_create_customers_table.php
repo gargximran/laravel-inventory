@@ -21,6 +21,7 @@ class CreateCustomersTable extends Migration
             $table->string('address')->nullable();
             $table->string('shop_name')->default('Individual');
             $table->string('city')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

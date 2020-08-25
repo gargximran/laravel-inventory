@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class DamageProduct extends Model
 {
     public function inventory(){
-        return $this->belongsTo(Inventory::class);
+        return $this->belongsTo(Inventory::class)->withTrashed();
     }
 
     public function buy(){
-        return $this->belongsTo(Buy::class, 'batch', 'id');
+        return $this->belongsTo(Buy::class, 'batch', 'id')->withTrashed();
     }
 
     public function getCreatedAtAttribute($value){
