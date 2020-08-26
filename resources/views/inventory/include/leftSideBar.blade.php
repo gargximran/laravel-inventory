@@ -114,6 +114,17 @@
                                 </li>
 
 
+                                <li class="sidebar-item ml-3">
+                                    <a href="{{route('finishedInventory')}}" class="sidebar-link">
+                                        <i class="mdi mdi-note-outline"></i>
+                                        <span class="hide-menu"> Finished Inventory </span>
+                                    </a>
+                                </li>
+
+
+                                
+
+
                                 
                             </ul>
                         </li>

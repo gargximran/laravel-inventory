@@ -10,7 +10,7 @@
 <script src="{{ asset('inventory/dist/js/sidebarmenu.js') }}"></script>
 <!--Custom JavaScript -->
 <script src="{{ asset('inventory/dist/js/custom.min.js') }}"></script>
-<script src="{{ asset('inventory/assets/libs/toastr/build/toastr.min.js') }}"></script>
+<script src="{{ asset('inventory/assets/libs/toastr/toastr.js') }}"></script>
 
 
 @yield('per_page_js')

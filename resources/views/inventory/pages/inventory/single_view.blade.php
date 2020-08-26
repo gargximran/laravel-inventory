@@ -100,34 +100,53 @@
                 >
                     <thead>
                         <tr>
-                            <th>Invoice No.</th>
+                            
                             <th>Batch No.</th>
+                            <th>Invoice No.</th>
                             <th>Purchase Date</th>
                             <th>Expire Date</th>
                             <th>Per Price</th>
                             <th>Quantity</th>
+                            <th>Damaged | Returned</th>
                             <th>Supplier Name</th>
                             
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($inventory->buy as $buy)
-                        <tr>
-                            <td>
-                                {{$buy->invoice->id}}
-                            </td>
-                            <td>
-                                {{$buy->id}}
-                            </td>
-                            <td>{{$buy->created_at}}</td>
-                            <td>{{$buy->expireDate}}</td>
-                            <td>{{$buy->per_price}} tk</td>
-                            <td>{{$buy->quantity}} pc.</td>
-                            <td>{{ $buy->supplier->name}}</td>
-                            
-                            
-                        </tr>
-                            @endforeach
+                            @if ( $buy->returnFrom == 0)
+                                        
+                                
+                                <tr>
+                                    
+                                    <td>
+                                        {{$buy->id}}
+                                    </td>
+                                    <td>
+                                        {{$buy->invoice->id}}
+                                    </td>
+                                    <td>{{$buy->created_at}}</td>
+                                    <td>{{$buy->expireDate}}</td>
+                                    <td>{{$buy->per_price}} tk</td>
+                                    <td>{{$buy->quantity}} pc.</td>
+                                        @php
+                                            $returnQuantity = 0;
+                                            foreach($buy->return as $re){
+                                                $returnQuantity += $re->quantity;
+                                            }
+
+                                            $damageQuantity = 0;
+                                            foreach ($buy->damages as  $value) {
+                                                $damageQuantity += $value->quantity;
+                                            }
+                                        @endphp
+                                    <td>{{$damageQuantity}}pc |  {{$returnQuantity}} pc</td>
+                                    <td>{{ $buy->supplier->name}}</td>
+                                    
+                                    
+                                </tr>
+                            @endif
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -178,6 +197,70 @@
         </div>
     </div>
     <!-- ============================================================== -->
+
+
+
+
+    <hr>
+    <h2 class="bg-secondary text-warning px-2">Return History</h2>
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table
+                    id="zero_config1"
+                    class="table table-bordered table-hover text-center"
+                >
+                    <thead>
+                        <tr>
+                    
+                            <th>Batch No.</th>
+                            <th>Return From</th>
+                            <th>Return Date</th>
+                            <th>Expire Date</th>
+                            <th>Per Price</th>
+                            <th>Quantity</th>
+                            <th>Damaged | Returned</th>
+
+                            <th>Supplier Name</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($inventory->buy as $buy)
+                            @foreach ($buy->return as $return)
+                                @if ($return->returnFrom)
+                                
+                            
+                                    <tr>
+                                        <td>{{$return->id}}</td>
+                                        <td>{{$return->returnFrom}}</td>
+                                        <td>{{$return->created_at}}</td>
+                                        <td>{{$return->expireDate}}</td>
+                                        <td>{{$return->per_price}}</td>
+                                        <td>{{$return->quantity}}</td>
+                                        @php
+                                        $returnQuantity = 0;
+                                        foreach($return->return as $re){
+                                            $returnQuantity += $re->quantity;
+                                        }
+
+                                        $damageQuantity = 0;
+                                        foreach ($return->damages as  $value) {
+                                            $damageQuantity += $value->quantity;
+                                        }
+                                    @endphp
+                                        <td>{{$damageQuantity}}pc | {{$returnQuantity}}pc</td>
+                                        <td>{{$return->supplier->name}}</td>
+                                        
+                                    </tr>
+                                @endif
+                            @endforeach
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
     <!-- Sales chart
                 <!-- ============================================================== -->
 </div>

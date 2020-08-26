@@ -106,6 +106,7 @@ Route::namespace('inventory')->group(function(){
         Route::get('all', 'InvoiceController@all_stock')->name('all_stock');
         Route::get('expired', 'InvoiceController@expired_stock')->name('expired_stock');
         Route::get('finished', 'InvoiceController@finished_stock')->name('finished_stock');
+        Route::get('finished/inventory', 'InventoryController@finishedInventory')->name('finishedInventory');
 
     });
 

@@ -11,172 +11,230 @@
                 <!-- ============================================================== -->
                 <div class="row">
                     <!-- Column -->
-                    <div class="col-md-6 col-lg-2 col-xlg-3">
-                        <div class="card card-hover">
-                            <div class="box bg-cyan text-center">
-                                <h1 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h1>
-                                <h6 class="text-white">Dashboard</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                    <div class="col-md-6 col-lg-4 col-xlg-3">
+
+                    <div class="col-md-6">
                         <div class="card card-hover">
                             <div class="box bg-success text-center">
-                                <h1 class="font-light text-white"><i class="mdi mdi-chart-areaspline"></i></h1>
-                                <h6 class="text-white">Charts</h6>
+                               
+                                <h6 class="text-white">Expire Warning</h6>
+                                <table class="table table-sm">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Batch</th>
+                                        <th scope="col">Expire Date</th>                                     
+                                        <th scope="col">Day Left</th>
+                                        <th scope="col">Available Quantity</th>
+                                        <th scope="col">Supplier Name</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        @foreach ($warningExpireStock as $expireWarningProduct)
+                                          <td>
+                                            <p class="text-center">
+                                              <img style="width:30px;" src="{{asset('inventory/images/inventory/'.$expireWarningProduct->inventory->image)}}" alt="">
+                                            </p>
+                                          </td>
+                                          <td>{{$expireWarningProduct->inventory->name}}</td>
+                                          <td>{{$expireWarningProduct->batch}}</td>
+                                          <td>{{$expireWarningProduct->expireDate}}</td>
+                                    
+                                          @php
+                                    
+
+                                            $exp = $expireWarningProduct->expireDate;
+      
+                                            $datework = Carbon\Carbon::createFromDate($exp);
+                                            $now = Carbon\Carbon::now();
+                                       
+                                          @endphp
+                                          <td>{{ $datework->diffInDays($now)}} days</td>
+
+                                      
+                                          <td>{{$expireWarningProduct->quantity}}</td>
+                                          <td>{{$expireWarningProduct->buy->supplier->name}}</td>
+                                        
+                                        
+                                        
+                                      </tr>
+                                      @endforeach
+                                      
+                                    </tbody>
+                                  </table>
                             </div>
                         </div>
                     </div>
                      <!-- Column -->
-                    <div class="col-md-6 col-lg-2 col-xlg-3">
+                    <div class="col-md-6">
                         <div class="card card-hover">
                             <div class="box bg-warning text-center">
-                                <h1 class="font-light text-white"><i class="mdi mdi-collage"></i></h1>
-                                <h6 class="text-white">Widgets</h6>
+                                <h6 class="text-white">Store Age Warning</h6>
+                                <table class="table table-sm">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Batch</th>
+                                        <th scope="col">Store Age</th>
+                                        <th scope="col">Import Date</th>
+                                        <th scope="col">Supplier Name</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      @foreach ($stockAges as $age)
+                                      <tr>
+                                        <td>
+                                          <p class="text-center">
+                                            <img style="width:30px;" src="{{asset('inventory/images/inventory/'.$age->inventory->image)}}" alt="">
+                                          </p>
+                                        </td>
+                                        <td>{{$age->inventory->name}}</td>
+                                        <td>{{$age->batch}}</td>
+                                        @php
+                                    
+
+                                        $exp = $age->created_at;
+   
+                                        $datework = Carbon\Carbon::createFromDate($exp);
+                                        $now = Carbon\Carbon::now();
+                                       
+                                        @endphp
+                                        <td>{{$datework->diffInDays($now)}} days</td>
+                                        <td>{{$age->created_at}}</td>
+                                        <td>{{$age->buy->supplier->name}}</td>
+
+                                      </tr>
+                                      @endforeach
+                                      
+                                      
+                                    </tbody>
+                                  </table>
                             </div>
                         </div>
                     </div>
                     <!-- Column -->
-                    <div class="col-md-6 col-lg-2 col-xlg-3">
+                    <div class="col-md-6">
                         <div class="card card-hover">
                             <div class="box bg-danger text-center">
-                                <h1 class="font-light text-white"><i class="mdi mdi-border-outside"></i></h1>
-                                <h6 class="text-white">Tables</h6>
+                                <h6 class="text-white">Damaged Product</h6>
+                                <table class="table table-sm">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Batch</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Code</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Damage Date</th>
+                                        <th scope="col">Supplier Name</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      @foreach ($damages as $damage)
+                                      <tr>
+                                        
+                                        <td>
+                                          <p class="text-center">
+                                            <img style="width:30px;" src="{{asset('inventory/images/inventory/'.$damage->inventory->image)}}" alt="">
+                                          </p>
+                                        </td>
+                                        <td>{{$damage->batch}}</td>
+                                        <td>{{$damage->inventory->name}}</td>
+                                        <td>{{$damage->inventory->code}}</td>
+                                        <td>{{$damage->quantity}}</td>
+                                        <td>{{$damage->created_at}}</td>
+                                        <td>{{$damage->buy->supplier->name}}</td>
+                              
+                                      </tr>
+                                      @endforeach
+                                      
+                                      
+                                    </tbody>
+                                  </table>
                             </div>
                         </div>
                     </div>
                     <!-- Column -->
-                    <div class="col-md-6 col-lg-2 col-xlg-3">
-                        <div class="card card-hover">
-                            <div class="box bg-info text-center">
-                                <h1 class="font-light text-white"><i class="mdi mdi-arrow-all"></i></h1>
-                                <h6 class="text-white">Full Width</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                    <!-- Column -->
-                    <div class="col-md-6 col-lg-4 col-xlg-3">
-                        <div class="card card-hover">
-                            <div class="box bg-danger text-center">
-                                <h1 class="font-light text-white"><i class="mdi mdi-receipt"></i></h1>
-                                <h6 class="text-white">Forms</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                    <div class="col-md-6 col-lg-2 col-xlg-3">
-                        <div class="card card-hover">
-                            <div class="box bg-info text-center">
-                                <h1 class="font-light text-white"><i class="mdi mdi-relative-scale"></i></h1>
-                                <h6 class="text-white">Buttons</h6>
-                            </div>
-                        </div>
-                    </div>
-                     <!-- Column -->
-                    <div class="col-md-6 col-lg-2 col-xlg-3">
-                        <div class="card card-hover">
-                            <div class="box bg-cyan text-center">
-                                <h1 class="font-light text-white"><i class="mdi mdi-pencil"></i></h1>
-                                <h6 class="text-white">Elements</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                    <div class="col-md-6 col-lg-2 col-xlg-3">
-                        <div class="card card-hover">
-                            <div class="box bg-success text-center">
-                                <h1 class="font-light text-white"><i class="mdi mdi-calendar-check"></i></h1>
-                                <h6 class="text-white">Calnedar</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                    <div class="col-md-6 col-lg-2 col-xlg-3">
+                    <div class="col-md-6">
                         <div class="card card-hover">
                             <div class="box bg-warning text-center">
-                                <h1 class="font-light text-white"><i class="mdi mdi-alert"></i></h1>
-                                <h6 class="text-white">Errors</h6>
+                                <h6 class="text-white">Expired Product</h6>
+                                <table class="table table-sm">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Batch</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Size</th>
+                                        <th scope="col">Code</th>
+                                        <th scope="col">Supplier Name</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      @foreach ($expiredStocks as $expireProduct)
+                                        <tr>
+                                          <td>
+                                            <p class="text-center">
+                                              <img style="width:30px;" src="{{asset('inventory/images/inventory/'.$expireProduct->inventory->image)}}" alt="">
+                                            </p>
+                                          </td>
+                                          <td>{{$expireProduct->batch}}</td>
+                                          <td>{{$expireProduct->inventory->name}}</td>
+                                          <td>{{$expireProduct->inventory->size}}</td>
+                                          <td>{{$expireProduct->inventory->code}}</td>
+                                          <td>{{$expireProduct->buy->supplier->name}}</td>
+                                         
+                                        </tr>
+                                      @endforeach
+                                     
+                                     
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                     <!-- Column -->
-                </div>
-                <!-- ============================================================== -->
-                <!-- Sales chart -->
-                <!-- ============================================================== -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-md-flex align-items-center">
-                                    <div>
-                                        <h4 class="card-title">Site Analysis</h4>
-                                        <h5 class="card-subtitle">Overview of Latest Month</h5>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <!-- column -->
-                                    <div class="col-lg-9">
-                                        <div class="flot-chart">
-                                            <div class="flot-chart-content" id="flot-line-chart"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="bg-dark p-10 text-white text-center">
-                                                   <i class="fa fa-user m-b-5 font-16"></i>
-                                                   <h5 class="m-b-0 m-t-5">2540</h5>
-                                                   <small class="font-light">Total Users</small>
-                                                </div>
-                                            </div>
-                                             <div class="col-6">
-                                                <div class="bg-dark p-10 text-white text-center">
-                                                   <i class="fa fa-plus m-b-5 font-16"></i>
-                                                   <h5 class="m-b-0 m-t-5">120</h5>
-                                                   <small class="font-light">New Users</small>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 m-t-15">
-                                                <div class="bg-dark p-10 text-white text-center">
-                                                   <i class="fa fa-cart-plus m-b-5 font-16"></i>
-                                                   <h5 class="m-b-0 m-t-5">656</h5>
-                                                   <small class="font-light">Total Shop</small>
-                                                </div>
-                                            </div>
-                                             <div class="col-6 m-t-15">
-                                                <div class="bg-dark p-10 text-white text-center">
-                                                   <i class="fa fa-tag m-b-5 font-16"></i>
-                                                   <h5 class="m-b-0 m-t-5">9540</h5>
-                                                   <small class="font-light">Total Orders</small>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 m-t-15">
-                                                <div class="bg-dark p-10 text-white text-center">
-                                                   <i class="fa fa-table m-b-5 font-16"></i>
-                                                   <h5 class="m-b-0 m-t-5">100</h5>
-                                                   <small class="font-light">Pending Orders</small>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 m-t-15">
-                                                <div class="bg-dark p-10 text-white text-center">
-                                                   <i class="fa fa-globe m-b-5 font-16"></i>
-                                                   <h5 class="m-b-0 m-t-5">8540</h5>
-                                                   <small class="font-light">Online Orders</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- column -->
-                                </div>
+                    <!-- Column -->
+                    <div class="col-md-6">
+                        <div class="card card-hover">
+                            <div class="box bg-danger text-center">
+                                <h6 class="text-white">Zero Stock</h6>
+                                <table class="table table-sm">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Brand</th>
+                                        <th scope="col">Size</th>
+                                        <th scope="col">Code</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      @foreach ($OutOfStockInventories as $inventory)
+                                          
+                                      
+                                        <tr>
+                                          <td>
+                                            <p class="text-center">
+                                              <img style="width:30px;" src="{{asset('inventory/images/inventory/'.$inventory->image)}}" alt="">
+                                            </p>
+                                          </td>
+                                          <td>{{$inventory->name}}</td>
+                                          <td>{{$inventory->brand->name}}</td>
+                                          <td>{{$inventory->size}}</td>
+                                          <td>{{$inventory->code}}</td>
+                                        </tr>
+                                      @endforeach
+                                      
+                                    </tbody>
+                                  </table>
                             </div>
                         </div>
                     </div>
+                    
                 </div>
-                <!-- ============================================================== -->
-                <!-- Sales chart
-                <!-- ============================================================== -->
+     
             </div>
 @endsection

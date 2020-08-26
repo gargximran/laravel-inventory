@@ -2,7 +2,7 @@
 
 @section('per_page_css')
 <link href="{{ asset('inventory/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css')}}" rel="stylesheet"/>
-<link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+
 @endsection 
 
 
@@ -10,7 +10,6 @@
 @section('per_page_js')
 <script src="{{ asset('inventory/assets/extra-libs/DataTables/datatables.min.js') }}"></script>
 
-    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
 <script>
     /****************************************
      *       Basic Table                   *

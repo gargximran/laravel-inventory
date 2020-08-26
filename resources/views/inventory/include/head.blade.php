@@ -17,7 +17,7 @@
     <!-- Custom CSS -->
     <link href="{{ asset('inventory/dist/css/style.min.css') }}" rel="stylesheet">
     <link href="{{ asset('inventory/dist/css/custom.css') }}" rel="stylesheet">
-    <link href="{{ asset('inventory/assets/libs/toastr/build/toastr.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('inventory/assets/libs/toastr/toastr.css') }}" rel="stylesheet">
 
 
     

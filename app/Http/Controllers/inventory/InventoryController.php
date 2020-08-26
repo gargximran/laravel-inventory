@@ -97,6 +97,15 @@ class InventoryController extends Controller
         return view('inventory.pages.inventory.single_view', compact('inventory'));
     }
 
+
+
+
+
+    public function finishedInventory(){
+        $inventories = Inventory::orderBy('id', 'desc')->where('quantity', 0)->get();
+        return view('inventory.pages.inventory.finished' , compact('inventories'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

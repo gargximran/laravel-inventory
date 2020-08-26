@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Inventory\Buy;
 use App\Models\Inventory\Inventory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
@@ -28,5 +29,9 @@ class Stock extends Model
         $date = Carbon::parse($value);
         return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
     
+    }
+
+    public function buy(){
+        return $this->belongsTo(Buy::class, 'batch', 'id');
     }
 }
